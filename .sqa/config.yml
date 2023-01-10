@@ -1,0 +1,65 @@
+config:
+  credentials: []
+  project_repos:
+    git.scc.kit.edu/m-team/oidc/mytoken/docs:
+      branch: master
+      repo: https://git.scc.kit.edu/m-team/oidc/mytoken/docs
+    github.com/EOSC-synergy/sqaaas-tooling:
+      branch: release/1.7.7
+      repo: https://github.com/EOSC-synergy/sqaaas-tooling
+    github.com/oidc-mytoken/server:
+      branch: prerel
+      repo: https://github.com/oidc-mytoken/server
+environment:
+  JPL_DOCKERFORCEBUILD: enabled
+  JPL_KEEPGOING: enabled
+sqa_criteria:
+  QC.Acc:
+    repos:
+      github.com/oidc-mytoken/server git:
+        commands:
+        - /usr/bin/env sh .sqa/script.wiggy-puce-devil.sh
+        container: qc.acc_slimy-yellow-donkey
+  QC.Doc:
+    repos:
+      git.scc.kit.edu/m-team/oidc/mytoken/docs find_doc_files.py:
+        commands:
+        - /usr/bin/env sh .sqa/script.tacky-ecru-rabbit.sh
+        container: qc.doc_jumpy-pumpkin-mongrel
+      git.scc.kit.edu/m-team/oidc/mytoken/docs git:
+        commands:
+        - /usr/bin/env sh .sqa/script.gimpy-apricot-mongrel.sh
+        container: qc.doc_sleazy-cerulean-worm
+      git.scc.kit.edu/m-team/oidc/mytoken/docs markdownlint:
+        commands:
+        - /usr/bin/env sh .sqa/script.thirsty-plum-schnauzer.sh
+        container: qc.doc_pretty-heliotrope-shrew
+  QC.Lic:
+    repos:
+      github.com/oidc-mytoken/server licensee:
+        commands:
+        - /usr/bin/env sh .sqa/script.hasty-khaki-okapi.sh
+        container: qc.lic_squeaky-rust-bobcat
+  QC.Sec:
+    repos:
+      github.com/oidc-mytoken/server gosec:
+        commands:
+        - /usr/bin/env sh .sqa/script.chummy-lemon-mayfly.sh
+        container: qc.sec_messy-persimmon-orangutan
+  QC.Sty:
+    repos:
+      github.com/oidc-mytoken/server hadolint:
+        commands:
+        - /usr/bin/env sh .sqa/script.nippy-lavender-capuchin.sh
+        container: qc.sty_lovely-gold-vulture
+      github.com/oidc-mytoken/server staticcheck:
+        commands:
+        - /usr/bin/env sh .sqa/script.trippy-maroon-axolotl.sh
+        container: qc.sty_thirsty-pumpkin-axolotl
+  QC.Ver:
+    repos:
+      github.com/oidc-mytoken/server get_git_tags.py:
+        commands:
+        - /usr/bin/env sh .sqa/script.wheezy-orange-slug.sh
+        container: qc.ver_slaphappy-mustard-penguin
+timeout: 5400
